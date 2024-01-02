@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { token } from "../stores";
+    import { token, loginStatus } from "../stores";
     import { get } from "svelte/store";
     import { type Todo } from "../models";
     let todos: Todo[] = [];
@@ -8,7 +8,7 @@
         user_id: "",
         title: "",
         description: "",
-        status: 0,
+        status: false,
     };
 
     import axios from "axios";
@@ -20,15 +20,51 @@
                     Authorization: get(token),
                 },
             });
-            const message = response.data;
-            alert(message);
+            const data = response.data;
+            if (Array.isArray(data)) {
+                todos = data;
+            } else if (data) {
+                todos = [data];
+            } else {
+                todos = [];
+            }
         } catch (error: any) {
             const message = error.response.data;
             alert(message);
+            if (error.response.status === 403) {
+                if (get(loginStatus) === 2) {
+                    alert("Session expired. Please login again.");
+                }
+                loginStatus.set(0);
+            }
         }
     };
 
-    const addTodo = async () => {};
+    const addTodo = async () => {
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/todo",
+                newTodo,
+                {
+                    headers: {
+                        Authorization: get(token),
+                    },
+                },
+            );
+            const message = response.data;
+            alert(message);
+            await getTodos();
+        } catch (error: any) {
+            const message = error.response.data;
+            alert(message);
+            if (error.response.status === 403) {
+                if (get(loginStatus) === 2) {
+                    alert("Session expired. Please login again.");
+                }
+                loginStatus.set(0);
+            }
+        }
+    };
 
     const removeTodo = async (id: string) => {
         try {
@@ -42,6 +78,8 @@
             console.error(error);
         }
     };
+    //TODO: Add update todo
+    //TODO: FIX remove todo
 </script>
 
 <div id="todo">
@@ -59,11 +97,13 @@
     <div id="todo-list">
         <ul>
             {#each todos as todo (todo.todo_id)}
-                <li>
-                    {todo.title}
+                <li class="todo-item">
                     <button on:click={() => removeTodo(todo.todo_id)}>
                         X
                     </button>
+                    <input type="checkbox" bind:checked={todo.status} />
+                    <h3>{todo.title}</h3>
+                    <p>{todo.description}</p>
                 </li>
             {/each}
         </ul>
@@ -71,4 +111,48 @@
 </div>
 
 <style>
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+    .todo-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .todo-item h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        display: inline;
+    }
+    .todo-item p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+    .todo-item button {
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        float: right;
+        background-color: inherit;
+    }
+    .todo-item button:hover {
+        color: red;
+    }
+    #todo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+    }
+    #todo-tools {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+    }
 </style>

@@ -3,5 +3,5 @@ export interface Todo {
     user_id: string;
     title: string;
     description: string;
-    status: number;
+    status: boolean;
 }

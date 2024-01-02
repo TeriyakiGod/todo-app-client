@@ -4,10 +4,6 @@
     loginStatus.subscribe((value) => {
         status = value;
     });
-    let tokenValue: string;
-    token.subscribe((value) => {
-        tokenValue = value;
-    });
     let name = "";
     let email = "";
     let password = "";
@@ -25,9 +21,7 @@
             );
             const message = response.data;
             alert(message);
-            //TODO: GET AUTHORIZATION TOKEN FROM HEADER
-            const token = response.headers["Authorization"];
-            console.log(response.headers);
+            token.set(response.headers.authorization);
             loginStatus.set(2);
         } catch (error: any) {
             const message = error.response.data;
