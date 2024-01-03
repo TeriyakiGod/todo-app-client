@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -rdynamic "CMakeFiles/cpp-todo-app.dir/src/main.cpp.o" -o cpp-todo-app  /usr/lib/x86_64-linux-gnu/libsqlite3.so /usr/lib/x86_64-linux-gnu/libspdlog.so.1.10.0 -lsodium /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libfmt.so.9.1.0 
