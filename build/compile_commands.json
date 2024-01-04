@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/teriyakigod/todo-app-client/build",
-  "command": "/usr/bin/g++ -DFMT_SHARED -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTERNAL -DSPDLOG_SHARED_LIB -I/home/teriyakigod/cpp-todo-app/include -g -std=gnu++17 -o CMakeFiles/cpp-todo-app.dir/src/main.cpp.o -c /home/teriyakigod/cpp-todo-app/src/main.cpp",
-  "file": "/home/teriyakigod/cpp-todo-app/src/main.cpp"
-}
-]

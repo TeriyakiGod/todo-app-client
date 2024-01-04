@@ -1,3 +1,0 @@
-/home/teriyakigod/todo-app-client/build/CMakeFiles/cpp-todo-app.dir
-/home/teriyakigod/todo-app-client/build/CMakeFiles/edit_cache.dir
-/home/teriyakigod/todo-app-client/build/CMakeFiles/rebuild_cache.dir
